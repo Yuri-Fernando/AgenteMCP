@@ -1,0 +1,1286 @@
+{
+  "name": "MCP - TESTES",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "Você é uma assistente útil. Primeiro deve listar as tools disponíveis, e depois utilizar elas conforme necessário."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.8,
+      "position": [
+        -1660,
+        1280
+      ],
+      "id": "8939969f-03c2-4896-8a35-aac1805b716e",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -1760,
+        1500
+      ],
+      "id": "d81de361-6d73-4c9a-b4d7-120ab93a5ff6",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "srT1dWhRDgaOtegj",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-mcp.mcpClientTool",
+      "typeVersion": 1,
+      "position": [
+        -1520,
+        1500
+      ],
+      "id": "85abd279-6216-4a2f-9b70-7ee1f1c292a6",
+      "name": "BRAVE LIST TOOLS",
+      "credentials": {
+        "mcpClientApi": {
+          "id": "WcTuojTLuuSgnMYO",
+          "name": "BRAVE SEARCH API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeTool",
+        "toolName": "={{$fromAI(\"tool\",\"Defina abaixo o nome específico da tool\")}}",
+        "toolParameters": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Tool_Parameters', ``, 'json') }}"
+      },
+      "type": "n8n-nodes-mcp.mcpClientTool",
+      "typeVersion": 1,
+      "position": [
+        -1360,
+        1500
+      ],
+      "id": "274b6202-b123-40cc-bba2-c5a5473bee23",
+      "name": "BRAVE SEARCH",
+      "credentials": {
+        "mcpClientApi": {
+          "id": "WcTuojTLuuSgnMYO",
+          "name": "BRAVE SEARCH API"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        -1640,
+        1500
+      ],
+      "id": "c5dd6abe-8960-4f70-846d-19ac52677d1f",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "content": "## BRAVE SEARCH\n\n**LINK DA API BRAVE SEARCH** >>> . [CLIQUE AQUI](https://brave.com/search/api/)\n\n\n**LINK MCP BRAVE SEARCH** >>> . [CLIQUE AQUI](https://github.com/modelcontextprotocol/servers/tree/main/src/brave-search)\n\n",
+        "height": 580,
+        "width": 1140,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1260,
+        1060
+      ],
+      "typeVersion": 1,
+      "id": "b1871c23-bed3-46e9-8e07-28da5794268d",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "### NPX\n\n{\n  \"mcpServers\": {\n    \"brave-search\": {\n      \"command\": \"npx\",\n      \"args\": [\n        \"-y\",\n        \"@modelcontextprotocol/server-brave-search\"\n      ],\n      \"env\": {\n        \"BRAVE_API_KEY\": \"YOUR_API_KEY_HERE\"\n      }\n    }\n  }\n}",
+        "height": 320,
+        "width": 340,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -480,
+        1080
+      ],
+      "typeVersion": 1,
+      "id": "a4f3404b-bcf2-46e5-906d-9df79494c152",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "![Source example](https://i.postimg.cc/y6MDWZBh/image.png/<IMAGE-NAME>.png#full-width)",
+        "height": 400,
+        "width": 740,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1240,
+        1220
+      ],
+      "typeVersion": 1,
+      "id": "b597312b-6d0f-48ee-a736-5d6e3097393b",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "Você é uma assistente útil. Primeiro deve listar as tools disponíveis, e depois utilizar elas conforme necessário."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.8,
+      "position": [
+        320,
+        940
+      ],
+      "id": "e1200d0a-a74b-4cf5-a789-8de5ccd3ed11",
+      "name": "AI Agent1"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        280,
+        1160
+      ],
+      "id": "7e9e4eb1-e642-4cbc-a2ff-6453cc6b9f39",
+      "name": "OpenAI Chat Model1",
+      "credentials": {
+        "openAiApi": {
+          "id": "srT1dWhRDgaOtegj",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        400,
+        1160
+      ],
+      "id": "7484bd37-b359-48ad-8b65-cc1c2911cb99",
+      "name": "Simple Memory1"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-mcp.mcpClientTool",
+      "typeVersion": 1,
+      "position": [
+        520,
+        1220
+      ],
+      "id": "7eb75cab-f244-4edc-8174-60f9330375a4",
+      "name": "APIFY LIST TOOLS",
+      "credentials": {
+        "mcpClientApi": {
+          "id": "78Qz4da7EwJfVSlu",
+          "name": "APIFY MCP"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeTool",
+        "toolName": "={{$fromAI(\"tool\",\"Defina abaixo o nome específico da tool\")}}",
+        "toolParameters": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Tool_Parameters', ``, 'json') }}"
+      },
+      "type": "n8n-nodes-mcp.mcpClientTool",
+      "typeVersion": 1,
+      "position": [
+        720,
+        1140
+      ],
+      "id": "b89f529f-6b28-44c6-bdd8-8083afb5a3e6",
+      "name": "APIFY EXECUTE TOOL",
+      "credentials": {
+        "mcpClientApi": {
+          "id": "78Qz4da7EwJfVSlu",
+          "name": "APIFY MCP"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## APIFY\n\n** PASSO A PASSO PARA PEGAR A CHAVE API DA APIFY NO MÓDULO SOBRE ELA DISPONÍVEL NA ÁREA DE MEMBROS\n\n\n**LINK MCP DA APIFY** >>> . [CLIQUE AQUI](https://github.com/apify/actors-mcp-server)\n\n",
+        "height": 580,
+        "width": 1140,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        860,
+        800
+      ],
+      "typeVersion": 1,
+      "id": "8f6fafc7-bbd1-4d66-a3e3-559d99e7a60b",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "content": "### NPX\n\n{\n \"mcpServers\": {\n   \"actors-mcp-server\": {\n     \"command\": \"npx\",\n     \"args\": [\"-y\", \"@apify/actors-mcp-server\"],\n     \"env\": {\n        \"APIFY_TOKEN\": \"your-apify-token\"\n     }\n   }\n }\n}",
+        "height": 320,
+        "width": 340,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1640,
+        820
+      ],
+      "typeVersion": 1,
+      "id": "5efc171b-dcb8-4013-a12f-8561a8a87e64",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "content": "![Source example](https://i.postimg.cc/ZKqN2Dpf/image.png/<IMAGE-NAME>.png#full-width)",
+        "height": 400,
+        "width": 740,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        880,
+        960
+      ],
+      "typeVersion": 1,
+      "id": "5231adc4-6ddb-470b-b7df-652ae78bc544",
+      "name": "Sticky Note5"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "Você é uma assistente útil. Primeiro deve listar as tools disponíveis, e depois utilizar elas conforme necessário."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.8,
+      "position": [
+        2860,
+        -80
+      ],
+      "id": "4a21c682-be2a-419c-91ba-7a278c235c51",
+      "name": "AI Agent2"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        2820,
+        140
+      ],
+      "id": "6b5bd652-43e9-4f7f-a52c-8498c1afba4f",
+      "name": "OpenAI Chat Model2",
+      "credentials": {
+        "openAiApi": {
+          "id": "srT1dWhRDgaOtegj",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        2940,
+        140
+      ],
+      "id": "22627028-a5d9-4f63-992d-25db7dfe731f",
+      "name": "Simple Memory2"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-mcp.mcpClientTool",
+      "typeVersion": 1,
+      "position": [
+        3120,
+        140
+      ],
+      "id": "aea3533b-8134-4335-8c44-c163ced6cb61",
+      "name": "LIST TOOLS - 21 ST DEV",
+      "credentials": {
+        "mcpClientApi": {
+          "id": "vqGb2vPwITyISai3",
+          "name": "21ST DEV - UX UI"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeTool",
+        "toolName": "={{$fromAI(\"tool\",\"Defina abaixo o nome específico da tool\")}}",
+        "toolParameters": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Tool_Parameters', ``, 'json') }}"
+      },
+      "type": "n8n-nodes-mcp.mcpClientTool",
+      "typeVersion": 1,
+      "position": [
+        3340,
+        80
+      ],
+      "id": "70042009-e09d-4034-8a71-37ebbec136de",
+      "name": "21 ST - EXECUTE TOOL",
+      "credentials": {
+        "mcpClientApi": {
+          "id": "vqGb2vPwITyISai3",
+          "name": "21ST DEV - UX UI"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## 21 ST DESIGN DE COMPONENTES\n\n**LINK DA 21ST DEV** >>> . [CLIQUE AQUI](https://21st.dev/api-access)\n\n\n**LINK MCP 21 ST DEV** >>> . [CLIQUE AQUI](https://github.com/21st-dev/magic-mcp)\n\n",
+        "height": 580,
+        "width": 1140,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        3520,
+        -180
+      ],
+      "typeVersion": 1,
+      "id": "ddb7a96c-4f08-4a2f-912a-2b5e549f3d8d",
+      "name": "Sticky Note6"
+    },
+    {
+      "parameters": {
+        "content": "### NPX\n\n{\n  \"mcpServers\": {\n    \"@21st-dev/magic\": {\n      \"command\": \"npx\",\n      \"args\": [\"-y\", \"@21st-dev/magic@latest\", \"API_KEY=\\\"your-api-key\\\"\"]\n    }\n  }\n}",
+        "height": 320,
+        "width": 340,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        4300,
+        -160
+      ],
+      "typeVersion": 1,
+      "id": "658dc4e9-f48d-471c-a281-9005e1ddb0f2",
+      "name": "Sticky Note7"
+    },
+    {
+      "parameters": {
+        "content": "![Source example](https://i.postimg.cc/8k32FsNN/image.png/<IMAGE-NAME>.png#full-width)",
+        "height": 400,
+        "width": 740,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        3540,
+        -20
+      ],
+      "typeVersion": 1,
+      "id": "499b0f54-4c5f-4040-9189-eae38fe6aba0",
+      "name": "Sticky Note8"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "Você é uma assistente útil. Primeiro deve listar as tools disponíveis, e depois utilizar elas conforme necessário."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.8,
+      "position": [
+        2940,
+        920
+      ],
+      "id": "09f82563-df2f-4d4e-a272-5c5db3ab2868",
+      "name": "AI Agent3"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        2900,
+        1140
+      ],
+      "id": "c8e1e4f8-2f26-4260-b189-dc204cd003ab",
+      "name": "OpenAI Chat Model3",
+      "credentials": {
+        "openAiApi": {
+          "id": "srT1dWhRDgaOtegj",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        3020,
+        1140
+      ],
+      "id": "8c2611bc-b485-4ddd-896a-bb4f9475856e",
+      "name": "Simple Memory3"
+    },
+    {
+      "parameters": {
+        "content": "## AIRBNB\n\n\n**LINK MCP AIRBNB** >>> . [CLIQUE AQUI](https://github.com/openbnb-org/mcp-server-airbnb)\n\n",
+        "height": 580,
+        "width": 1140,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        3640,
+        800
+      ],
+      "typeVersion": 1,
+      "id": "4411a410-1873-42ce-9e43-819936d94391",
+      "name": "Sticky Note9"
+    },
+    {
+      "parameters": {
+        "content": "### NPX\n\n{\n  \"mcpServers\": {\n    \"airbnb\": {\n      \"command\": \"npx\",\n      \"args\": [\n        \"-y\",\n        \"@openbnb/mcp-server-airbnb\",\n        \"--ignore-robots-txt\"\n      ]\n    }\n  }\n}",
+        "height": 320,
+        "width": 340,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        4420,
+        820
+      ],
+      "typeVersion": 1,
+      "id": "63e75fd0-c515-476a-af36-771c75ef818e",
+      "name": "Sticky Note10"
+    },
+    {
+      "parameters": {
+        "content": "![Source example](https://i.postimg.cc/FHT7fMW3/image.png/<IMAGE-NAME>.png#full-width)",
+        "height": 400,
+        "width": 740,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        3660,
+        960
+      ],
+      "typeVersion": 1,
+      "id": "c37fc588-fe90-4119-a01f-727f465a5256",
+      "name": "Sticky Note11"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-mcp.mcpClientTool",
+      "typeVersion": 1,
+      "position": [
+        3200,
+        1140
+      ],
+      "id": "742e409e-79fe-46b6-9e76-694085a20a5e",
+      "name": "LIST TOOLS - AIRBNB",
+      "credentials": {
+        "mcpClientApi": {
+          "id": "wp7QxUrPOPMXzyUL",
+          "name": "AIRBNB"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeTool",
+        "toolName": "={{$fromAI(\"tool\",\"Defina abaixo o nome específico da tool\")}}",
+        "toolParameters": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Tool_Parameters', ``, 'json') }}"
+      },
+      "type": "n8n-nodes-mcp.mcpClientTool",
+      "typeVersion": 1,
+      "position": [
+        3360,
+        1140
+      ],
+      "id": "46f714a7-42cb-422d-9851-e1d3b8d91eba",
+      "name": "AIRBNB - EXECUTE TOOLS",
+      "credentials": {
+        "mcpClientApi": {
+          "id": "wp7QxUrPOPMXzyUL",
+          "name": "AIRBNB"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "Você é uma assistente útil. Primeiro deve listar as tools disponíveis, e depois utilizar elas conforme necessário."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.8,
+      "position": [
+        160,
+        2040
+      ],
+      "id": "336f9c64-9d5b-457f-af9c-3a24d2973226",
+      "name": "AI Agent4"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        120,
+        2260
+      ],
+      "id": "6928e629-4819-4794-ad6d-5515adf8761c",
+      "name": "OpenAI Chat Model4",
+      "credentials": {
+        "openAiApi": {
+          "id": "srT1dWhRDgaOtegj",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        240,
+        2260
+      ],
+      "id": "6c76f596-226b-45cb-981d-47f9390a355e",
+      "name": "Simple Memory4"
+    },
+    {
+      "parameters": {
+        "content": "## DEEP SEEK MCP\n\n\n**LINK MCP DO DEEPSEEK** >>> . [CLIQUE AQUI](https://github.com/DMontgomery40/deepseek-mcp-server)\n\n**LINK API DO DEEP SEEK** >>> . [CLIQUE AQUI](https://platform.deepseek.com)\n\n\n",
+        "height": 580,
+        "width": 1140,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        860,
+        1920
+      ],
+      "typeVersion": 1,
+      "id": "e2a95a69-fc0f-4766-a62a-20bea75b9ce7",
+      "name": "Sticky Note12"
+    },
+    {
+      "parameters": {
+        "content": "### NPX\n\n{\n  \"mcpServers\": {\n    \"deepseek\": {\n      \"command\": \"npx\",\n      \"args\": [\n        \"-y\",\n        \"deepseek-mcp-server\"\n      ],\n      \"env\": {\n        \"DEEPSEEK_API_KEY\": \"your-api-key\"\n      }\n    }\n  }\n}",
+        "height": 320,
+        "width": 340,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1640,
+        1940
+      ],
+      "typeVersion": 1,
+      "id": "9a6dfd0b-8151-408a-8b86-435663859c58",
+      "name": "Sticky Note13"
+    },
+    {
+      "parameters": {
+        "content": "![Source example](https://i.postimg.cc/26wF9kCy/image.png/<IMAGE-NAME>.png#full-width)",
+        "height": 400,
+        "width": 740,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        880,
+        2080
+      ],
+      "typeVersion": 1,
+      "id": "81fd6abb-25aa-48e1-adf9-3c042e0fdb1e",
+      "name": "Sticky Note14"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-mcp.mcpClientTool",
+      "typeVersion": 1,
+      "position": [
+        420,
+        2260
+      ],
+      "id": "ceb1d0b3-40b4-4e7e-ba22-d056389e2c7e",
+      "name": "DEEP SEEK - LIST TOOLS",
+      "credentials": {
+        "mcpClientApi": {
+          "id": "geEbpAc1wso9x9BG",
+          "name": "DEEP SEEK MCP"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeTool",
+        "toolName": "={{$fromAI(\"tool\",\"Defina abaixo o nome específico da tool\")}}",
+        "toolParameters": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Tool_Parameters', ``, 'json') }}"
+      },
+      "type": "n8n-nodes-mcp.mcpClientTool",
+      "typeVersion": 1,
+      "position": [
+        640,
+        2200
+      ],
+      "id": "161373a5-3641-43e3-a531-bb47539c09f3",
+      "name": "DEEP SEEK - EXECUTE TOOLS",
+      "credentials": {
+        "mcpClientApi": {
+          "id": "geEbpAc1wso9x9BG",
+          "name": "DEEP SEEK MCP"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "Você é uma assistente útil. Primeiro deve listar as tools disponíveis, e depois utilizar elas conforme necessário."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.8,
+      "position": [
+        2920,
+        2000
+      ],
+      "id": "469bae7b-cae3-4b80-9b49-73d1bdf80047",
+      "name": "AI Agent5"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        2880,
+        2220
+      ],
+      "id": "e7d5b9a1-a421-4f71-af65-0052c375755e",
+      "name": "OpenAI Chat Model5",
+      "credentials": {
+        "openAiApi": {
+          "id": "srT1dWhRDgaOtegj",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        3000,
+        2220
+      ],
+      "id": "7d5804b6-d6fb-4769-902a-444b76d9423e",
+      "name": "Simple Memory5"
+    },
+    {
+      "parameters": {
+        "content": "## DISCORD\n\n\n**LINK MCP DO DISCORD** >>> . [CLIQUE AQUI](https://github.com/v-3/discordmcp)\n\n** PARA UTILIZAR AQUI VOCÊ TERÁ QUE TER OU CRIAR UM BOT DO DISCORD - INDICO ESSA FERRAMENTA >>> [CLIQUE AQUI](https://botghost.com)\n\n",
+        "height": 580,
+        "width": 1140,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        3620,
+        1880
+      ],
+      "typeVersion": 1,
+      "id": "874ea329-af67-47b1-9c46-5cb4f7f68855",
+      "name": "Sticky Note15"
+    },
+    {
+      "parameters": {
+        "content": "### NPX\n\n{\n  \"mcpServers\": {\n    \"discord\": {\n      \"command\": \"node\",\n      \"args\": [\"path/to/discordmcp/build/index.js\"],\n      \"env\": {\n        \"DISCORD_TOKEN\": \"your_discord_bot_token_here\"\n      }\n    }\n  }\n}",
+        "height": 320,
+        "width": 340,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        4400,
+        2060
+      ],
+      "typeVersion": 1,
+      "id": "4db43286-4ce5-4181-80f8-712092355e74",
+      "name": "Sticky Note16"
+    },
+    {
+      "parameters": {
+        "content": "![Source example](https://i.postimg.cc/9fDR6yZv/image.png/<IMAGE-NAME>.png#full-width)",
+        "height": 400,
+        "width": 740,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        3640,
+        2040
+      ],
+      "typeVersion": 1,
+      "id": "01339e99-9e30-44d5-b476-2672f5489851",
+      "name": "Sticky Note17"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-mcp.mcpClientTool",
+      "typeVersion": 1,
+      "position": [
+        3160,
+        2240
+      ],
+      "id": "a139469a-0198-436f-ba77-5ee870ba9456",
+      "name": "DISCORD - LIST TOOLS",
+      "credentials": {
+        "mcpClientApi": {
+          "id": "u2kUOxEdN05J7oUp",
+          "name": "DISCORD - MCP"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeTool",
+        "toolName": "={{$fromAI(\"tool\",\"Defina abaixo o nome específico da tool\")}}",
+        "toolParameters": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Tool_Parameters', ``, 'json') }}"
+      },
+      "type": "n8n-nodes-mcp.mcpClientTool",
+      "typeVersion": 1,
+      "position": [
+        3400,
+        2160
+      ],
+      "id": "61bb0c5c-0f8e-4131-a10d-cea236dc22da",
+      "name": "DISCORD - EXECUTE TOOLS1",
+      "credentials": {
+        "mcpClientApi": {
+          "id": "geEbpAc1wso9x9BG",
+          "name": "DEEP SEEK MCP"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## TEM 2 DISCORD MCP SERVER\n\nOlhem e testem ambos caso queiram utilizar este serviço\n\n\n**LINK MCP DO DISCORD 2 ** >>> . [CLIQUE AQUI](https://github.com/SaseQ/discord-mcp)\n\n** PARA UTILIZAR AQUI VOCÊ TERÁ QUE TER OU CRIAR UM BOT DO DISCORD - INDICO ESSA FERRAMENTA >>> [CLIQUE AQUI](https://botghost.com)\n\n",
+        "height": 240,
+        "width": 1140,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        3620,
+        2500
+      ],
+      "typeVersion": 1,
+      "id": "6111f33c-8c46-4f8a-90e1-a956462741de",
+      "name": "Sticky Note18"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        0,
+        940
+      ],
+      "id": "8ff9869d-bcb8-4bad-984b-2d0e3a756841",
+      "name": "When chat message received",
+      "webhookId": "a945285b-5357-460a-a862-f979649054e2"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "Você é uma assistente útil, primeiro liste as tools disponiveis e depois execute com maestria"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.8,
+      "position": [
+        380,
+        -20
+      ],
+      "id": "139d5fc8-ba16-4fdf-bd1d-44d71be9fe06",
+      "name": "AI Agent6"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        140,
+        220
+      ],
+      "id": "3eaff97a-be84-44cf-bf8f-055257c11cb7",
+      "name": "OpenAI Chat Model6",
+      "credentials": {
+        "openAiApi": {
+          "id": "srT1dWhRDgaOtegj",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "contextWindowLength": 10
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        300,
+        300
+      ],
+      "id": "823c15c2-0114-4bf9-a26c-9f3c758afe7f",
+      "name": "Simple Memory6"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-mcp.mcpClientTool",
+      "typeVersion": 1,
+      "position": [
+        460,
+        320
+      ],
+      "id": "5efbae43-cb2e-4414-81b3-5f0b6a9307a1",
+      "name": "AIRBNB - LISTAR TOOLS AULA",
+      "credentials": {
+        "mcpClientApi": {
+          "id": "7oJ9CyJeGVUWfr8j",
+          "name": "AIRBNB AULA"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeTool",
+        "toolName": "={{ $fromAI(\"tool\"),\"defina a tool abaixo conforme a necessidade\" }}"
+      },
+      "type": "n8n-nodes-mcp.mcpClientTool",
+      "typeVersion": 1,
+      "position": [
+        500,
+        220
+      ],
+      "id": "385f9723-e111-46c1-a3be-8aba90e78188",
+      "name": "MCP Client",
+      "credentials": {
+        "mcpClientApi": {
+          "id": "7oJ9CyJeGVUWfr8j",
+          "name": "AIRBNB AULA"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "BRAVE LIST TOOLS": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "BRAVE SEARCH": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory1": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "APIFY LIST TOOLS": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "APIFY EXECUTE TOOL": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model2": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent2",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory2": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent2",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "LIST TOOLS - 21 ST DEV": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent2",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "21 ST - EXECUTE TOOL": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent2",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model3": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent3",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory3": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent3",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "LIST TOOLS - AIRBNB": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent3",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AIRBNB - EXECUTE TOOLS": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent3",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model4": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent4",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory4": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent4",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "DEEP SEEK - LIST TOOLS": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent4",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "DEEP SEEK - EXECUTE TOOLS": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent4",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model5": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent5",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory5": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent5",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "DISCORD - LIST TOOLS": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent5",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "DISCORD - EXECUTE TOOLS1": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent5",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model6": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent6",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory6": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent6",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AIRBNB - LISTAR TOOLS AULA": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent6",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MCP Client": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent6",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "c9d83a9b-3f5e-43ff-8568-9a345caa1ea9",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "0f7239325f4a744c3b1b5231c362e0db0e1b76f89fb6e99144bb28f775de25b6"
+  },
+  "id": "9rMWN5Y0hRFceFf1",
+  "tags": [
+    {
+      "createdAt": "2025-01-01T16:06:21.433Z",
+      "updatedAt": "2025-01-01T16:06:21.433Z",
+      "id": "m3lF1kYH6ze518Sa",
+      "name": "Aulas-GgNocode"
+    },
+    {
+      "createdAt": "2025-01-01T16:06:06.260Z",
+      "updatedAt": "2025-01-01T16:06:06.260Z",
+      "id": "Sy5xQ6uat6udb7TI",
+      "name": "GgNocode"
+    }
+  ]
+}

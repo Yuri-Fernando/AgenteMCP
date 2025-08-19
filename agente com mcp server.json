@@ -1,0 +1,522 @@
+{
+  "name": "Assistente Full - Pesquisas Brave e Airbnb",
+  "nodes": [
+    {
+      "parameters": {
+        "inputSource": "passthrough"
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -20,
+        -100
+      ],
+      "id": "d928e249-9f0d-40fc-b601-bd09860a2aba",
+      "name": "When Executed by Another Workflow",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        180,
+        800
+      ],
+      "id": "df758995-e4eb-4e12-88bb-a7205423b678",
+      "name": "When chat message received",
+      "webhookId": "b1d9d53f-5a88-4663-a588-96a4a197b75e",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "e6c44920-eea6-4306-9152-84b922fdcbeb",
+              "name": "output",
+              "value": "={{ $json.chatInput }}",
+              "type": "string"
+            },
+            {
+              "id": "e65e39b3-4a09-4240-a8be-545782c264c5",
+              "name": "sessionId",
+              "value": "={{ $json.sessionId }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        480,
+        -140
+      ],
+      "id": "9cb7965c-61d1-4ae2-bdd6-cedce41a0293",
+      "name": "setarPesquisa"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.output }}",
+        "options": {
+          "systemMessage": "=# Visão geral\n\nVocê é um assistente de pesquisa de IA projetado para realizar pesquisas na internet e no airbnb com base no tópico determinado de pesquisa utilize a data de hoje para se basear {{ $now.setZone('America/Sao_Paulo') }}.\n\nSeu objetivo é dividir o tópico de pesquisa fornecido em 3 tópicos, trazendo as 3 notícias mais recentes e relevantes com uma pesquisa profunda quando for utilizar a Brave Search API, ou as 3 melhores acomodações quando for buscar no airbnb.\n\n## Instruções:\n1) Primeiro liste as tools do serviço necessário conforme instruções das \"tools\" depois execute a tool.\n2) Divida os tópico de pesquisa ou acomodações: Identifique as 3 notícias ou 3 melhores acomodações de acordo com a entrada de texto e divida em 3 itens\n3) Garanta profundidade e relevância no caso da pesquisa na internet: Cada tópico de pesquisa deve ser específico o suficiente para permitir uma exploração profunda, mas amplo o suficiente para fornecer insights significativos.\n4) Evite redundância: Os três tópicos de pesquisa devem ser únicos e cobrir diferentes facetas do tópico principal.\n\n## Formato de saída (JSON):\n{\n\"item_1\": \"<Primeiro tópico de pesquisa aprofundada na internet ou airbnb>\",\n\"item_2\": \"<Segundo tópico de pesquisa aprofundada na internet ou airbnb>\",\n\"item_3\": \"<Terceiro tópico de pesquisa aprofundada na internet ou airbnb>\",\n}\n\n## Notas finais\nSuas respostas devem ser concisas, relevantes e bem estruturadas para orientar pesquisas aprofundadas de forma eficaz."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.8,
+      "position": [
+        840,
+        -140
+      ],
+      "id": "b2bbf739-1858-47ca-b0b3-6bea10faf9fa",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        580,
+        140
+      ],
+      "id": "7bd35483-4433-4fca-a88f-0a52b12337d5",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "srT1dWhRDgaOtegj",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-mcp.mcpClientTool",
+      "typeVersion": 1,
+      "position": [
+        780,
+        220
+      ],
+      "id": "5b765b03-41f6-4843-9465-71be5c3d9cfb",
+      "name": "airbnbListTools",
+      "credentials": {
+        "mcpClientApi": {
+          "id": "wp7QxUrPOPMXzyUL",
+          "name": "AIRBNB"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-mcp.mcpClientTool",
+      "typeVersion": 1,
+      "position": [
+        940,
+        240
+      ],
+      "id": "cfe71f6b-2ced-4988-aeec-05f867dd6f72",
+      "name": "braveSearchListTools",
+      "credentials": {
+        "mcpClientApi": {
+          "id": "WcTuojTLuuSgnMYO",
+          "name": "BRAVE SEARCH API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeTool",
+        "toolName": "={{ $fromAI(\"tool\", \"utilize as tools conforme necessário\") }}",
+        "toolParameters": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Tool_Parameters', ``, 'json') }}"
+      },
+      "type": "n8n-nodes-mcp.mcpClientTool",
+      "typeVersion": 1,
+      "position": [
+        1120,
+        240
+      ],
+      "id": "97ce390f-0549-4c02-9340-e09d1387f84d",
+      "name": "airbnbExecuteTools",
+      "credentials": {
+        "mcpClientApi": {
+          "id": "wp7QxUrPOPMXzyUL",
+          "name": "AIRBNB"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeTool",
+        "toolName": "={{ $fromAI(\"tool\", \"utilize as tools conforme necessário\") }}",
+        "toolParameters": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Tool_Parameters', ``, 'json') }}"
+      },
+      "type": "n8n-nodes-mcp.mcpClientTool",
+      "typeVersion": 1,
+      "position": [
+        1300,
+        160
+      ],
+      "id": "f50ada79-90a3-4fd7-8a52-5d87b1f05365",
+      "name": "braveExecuteListTools",
+      "credentials": {
+        "mcpClientApi": {
+          "id": "WcTuojTLuuSgnMYO",
+          "name": "BRAVE SEARCH API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "8a061701-6835-49c7-941d-7797d01576e5",
+              "name": "response",
+              "value": "={{ $json.output }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1200,
+        -140
+      ],
+      "id": "f6d1d24f-982e-46a7-9fdc-b613cdf737ac",
+      "name": "Resposta Assistant"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "=# Visão geral\n\nVocê é um assistente de pesquisa de IA projetado para realizar pesquisas na internet e no airbnb com base no tópico determinado de pesquisa utilize a data de hoje para se basear {{ $now.setZone('America/Sao_Paulo') }}.\n\nSeu objetivo é dividir o tópico de pesquisa fornecido em 3 tópicos, trazendo as 3 notícias mais recentes e relevantes com uma pesquisa profunda quando for utilizar a Brave Search API, ou as 3 melhores acomodações quando for buscar no airbnb.\n\n## Instruções:\n1) Primeiro liste as tools do serviço necessário conforme instruções das \"tools\" depois execute a tool.\n2) Divida os tópico de pesquisa ou acomodações: Identifique as 3 notícias ou 3 melhores acomodações de acordo com a entrada de texto e divida em 3 itens\n3) Garanta profundidade e relevância no caso da pesquisa na internet: Cada tópico de pesquisa deve ser específico o suficiente para permitir uma exploração profunda, mas amplo o suficiente para fornecer insights significativos.\n4) Evite redundância: Os três tópicos de pesquisa devem ser únicos e cobrir diferentes facetas do tópico principal.\n\n## Formato de saída (JSON):\n{\n\"item_1\": \"<Primeiro tópico de pesquisa aprofundada na internet ou airbnb>\",\n\"item_2\": \"<Segundo tópico de pesquisa aprofundada na internet ou airbnb>\",\n\"item_3\": \"<Terceiro tópico de pesquisa aprofundada na internet ou airbnb>\",\n}\n\n## Notas finais\nSuas respostas devem ser concisas, relevantes e bem estruturadas para orientar pesquisas aprofundadas de forma eficaz."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.8,
+      "position": [
+        820,
+        740
+      ],
+      "id": "fe191f3b-6a04-41b8-bfe4-86954d545203",
+      "name": "AI Agent1"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        560,
+        1020
+      ],
+      "id": "ddceee47-6208-4834-8146-75128710509a",
+      "name": "OpenAI Chat Model1",
+      "credentials": {
+        "openAiApi": {
+          "id": "srT1dWhRDgaOtegj",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-mcp.mcpClientTool",
+      "typeVersion": 1,
+      "position": [
+        760,
+        1100
+      ],
+      "id": "86b4f2fe-9336-4f59-9164-dc86ba92b33d",
+      "name": "airbnbListTools1",
+      "credentials": {
+        "mcpClientApi": {
+          "id": "wp7QxUrPOPMXzyUL",
+          "name": "AIRBNB"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-mcp.mcpClientTool",
+      "typeVersion": 1,
+      "position": [
+        920,
+        1120
+      ],
+      "id": "31de61d1-a7cd-479a-9ccb-4011bb68ed7e",
+      "name": "braveSearchListTools1",
+      "credentials": {
+        "mcpClientApi": {
+          "id": "WcTuojTLuuSgnMYO",
+          "name": "BRAVE SEARCH API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeTool",
+        "toolName": "={{ $fromAI(\"tool\", \"utilize as tools conforme necessário\") }}",
+        "toolParameters": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Tool_Parameters', ``, 'json') }}"
+      },
+      "type": "n8n-nodes-mcp.mcpClientTool",
+      "typeVersion": 1,
+      "position": [
+        1100,
+        1120
+      ],
+      "id": "90997e9b-e516-4263-8bf9-a5ed90941160",
+      "name": "airbnbExecuteTools1",
+      "credentials": {
+        "mcpClientApi": {
+          "id": "wp7QxUrPOPMXzyUL",
+          "name": "AIRBNB"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeTool",
+        "toolName": "={{ $fromAI(\"tool\", \"utilize as tools conforme necessário\") }}",
+        "toolParameters": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Tool_Parameters', ``, 'json') }}"
+      },
+      "type": "n8n-nodes-mcp.mcpClientTool",
+      "typeVersion": 1,
+      "position": [
+        1280,
+        1040
+      ],
+      "id": "580d5a99-35dd-44df-bf1b-e226c79a3f09",
+      "name": "braveExecuteListTools1",
+      "credentials": {
+        "mcpClientApi": {
+          "id": "WcTuojTLuuSgnMYO",
+          "name": "BRAVE SEARCH API"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "setarPesquisa",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "setarPesquisa": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "airbnbListTools": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "braveSearchListTools": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "airbnbExecuteTools": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "braveExecuteListTools": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Resposta Assistant",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent1": {
+      "main": [
+        []
+      ]
+    },
+    "OpenAI Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "airbnbListTools1": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "braveSearchListTools1": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "airbnbExecuteTools1": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "braveExecuteListTools1": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "8e378d14-c83d-46fb-b7ee-9adcfcc4f67d",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "0f7239325f4a744c3b1b5231c362e0db0e1b76f89fb6e99144bb28f775de25b6"
+  },
+  "id": "hw4Bj6kl1NBE4zRh",
+  "tags": [
+    {
+      "name": "Assistente Full",
+      "id": "u1MtumMhpgKhygFZ",
+      "createdAt": "2025-03-31T15:22:54.124Z",
+      "updatedAt": "2025-03-31T15:22:54.124Z"
+    },
+    {
+      "createdAt": "2025-01-01T16:06:21.433Z",
+      "updatedAt": "2025-01-01T16:06:21.433Z",
+      "id": "m3lF1kYH6ze518Sa",
+      "name": "Aulas-GgNocode"
+    },
+    {
+      "createdAt": "2025-01-01T16:06:06.260Z",
+      "updatedAt": "2025-01-01T16:06:06.260Z",
+      "id": "Sy5xQ6uat6udb7TI",
+      "name": "GgNocode"
+    },
+    {
+      "createdAt": "2025-02-08T18:07:41.553Z",
+      "updatedAt": "2025-02-08T18:07:41.553Z",
+      "id": "nSpzGyZaiIxMi20t",
+      "name": "gg-ass"
+    },
+    {
+      "createdAt": "2025-02-08T18:16:48.131Z",
+      "updatedAt": "2025-02-08T18:16:48.131Z",
+      "id": "ohLt2VxUkfHWwNXL",
+      "name": "assiste-pesoal"
+    }
+  ]
+}
